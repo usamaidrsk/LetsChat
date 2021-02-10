@@ -1,0 +1,26 @@
+{
+  "cwd": "E:\\myprojects\\myChatApp",
+  "type": [
+    "web"
+  ],
+  "name": "LetsChat",
+  "framework": "vue",
+  "template": "tabs",
+  "cssPreProcessor": false,
+  "bundler": "webpack",
+  "webpack": {
+    "developmentSourceMap": true,
+    "productionSourceMap": true,
+    "hashAssets": false,
+    "preserveAssetsPaths": false,
+    "inlineAssets": true
+  },
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkTheme": false,
+    "iconFonts": true,
+    "fillBars": false
+  },
+  "customBuild": false
+}
