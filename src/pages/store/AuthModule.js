@@ -34,7 +34,7 @@ const AuthModule =  {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if(user != null){
                       if ( user.emailVerified) {
-                        commit('setAlertMessage', `Welcome ${user.displayName}`)
+                        // commit('setAlertMessage', `Welcome ${user.displayName}`)
                         commit('setShowResendEmail', false)
                         commit('setSignedIn', true)
                         commit('setDisplayName', user.displayName)
