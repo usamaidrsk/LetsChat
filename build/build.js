@@ -4,7 +4,7 @@ const rm = require('rimraf');
 const chalk = require('chalk');
 const config = require('./webpack.config.js');
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'production';
 const target = process.env.TARGET || 'web';
 const isCordova = target === 'cordova'
 
