@@ -77,7 +77,7 @@ export default {
     },
     created () {
         this.$store.commit('setSignedUp', false)
-        const url = "https://firebasestorage.googleapis.com/v0/b/chatapp-39b2f.appspot.com/o/profile%2Fav3.png?alt=media&token=e2eaa797-9255-4ced-932e-e49beafe4128"
+        const url = "https://firebasestorage.googleapis.com/v0/b/chatapp-39b2f.appspot.com/o/profile%2FavatarM.jpg?alt=media&token=2f46c065-f111-4e92-a532-fd03af80f98d"
         this.$store.commit('setImageUrl', url)
     },
     methods: {

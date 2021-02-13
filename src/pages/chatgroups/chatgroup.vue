@@ -3,7 +3,7 @@
     <f7-navbar title="Messages" back-link="Back">
         <f7-nav-right>
             <f7-link @click="isOpened = !isOpened">
-                <i class="f7-icons">more_vertical_fill</i>
+                <i class="f7-icons">ellipsis_vertical</i>
             </f7-link>
         </f7-nav-right>
 

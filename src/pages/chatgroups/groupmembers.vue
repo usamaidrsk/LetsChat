@@ -1,7 +1,7 @@
 <template>
 <f7-page name="groupmembers">
     <f7-navbar title="groupmembers" back-link="Back"></f7-navbar>
-    <f7-block-title v-if="group_members.length>0">{{group_members.length}} member{{group_members.length>1?'s':''}}</f7-block-title>
+    <f7-block-title v-if="group_members.length > 0">{{group_members.length}} member{{group_members.length>1?'s':''}}</f7-block-title>
     <f7-block-title v-else>No members yet</f7-block-title>
    
        <f7-block>
@@ -39,7 +39,7 @@ export default {
     },
     computed: {
         group_members() {
-            return this.$store.getters.group_members
+            return !this.$store.getters.group_members ? [] : this.$store.getters.group_members
         }
     },
     created() {

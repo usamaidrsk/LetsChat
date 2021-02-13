@@ -18,6 +18,10 @@
 
 <script>
 export default {
+    props: {
+      f7route: Object,
+      f7router: Object,
+    },
     data() {
         return {
             group_name: null
@@ -26,7 +30,7 @@ export default {
     computed: {
         p_members() {
             const self = this
-            var friends = [...this.$store.getters.friends]
+            var friends = [...this.$store.getters.getFriends]
             _.forEach(self.group_members, function(member){
                 const index = _.findIndex(friends,member)
                 friends.splice(index,1)
@@ -47,7 +51,7 @@ export default {
         }
     },
     async created() {
-        this.group_name = this.$f7route.params.group_name
+        this.group_name = this.f7route.params.group_name
         this.$store.dispatch('getGroupMembers',this.group_name)
     }
 }

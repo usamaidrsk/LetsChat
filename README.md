@@ -1,4 +1,4 @@
-# myChatApp
+# LetsChat
 
 ## Framework7 CLI Options
 
@@ -6,11 +6,11 @@ Framework7 app created with following options:
 
 ```
 {
-  "cwd": "E:\\myprojects\\myChatApp",
+  "cwd": "E:\\myprojects\\LetsChat",
   "type": [
     "web"
   ],
-  "name": "myChatApp",
+  "name": "LetsChat",
   "framework": "vue",
   "template": "tabs",
   "cssPreProcessor": false,

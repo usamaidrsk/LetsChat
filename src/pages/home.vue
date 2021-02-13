@@ -19,10 +19,10 @@
         <f7-nav-title-large sliding>LetsChat </f7-nav-title-large>
     </f7-navbar>
 
-    <f7-list media-list>
-         <f7-list-item v-for="(frd, index) in friends" :key="index" :title="frd.name"  @click="gotoChat(frd)">
+    <f7-list media-list v-if='friends.length > 0'>
+         <f7-list-item v-for="(frd, index) in friends" :key="index" :title="frd.name" :text="frd.latest_message" @click="gotoChat(frd)">
             <img class="small-avatar" :src="frd.photo_url" />
-        </f7-list-item>
+    </f7-list-item>
     </f7-list>
   </f7-page>
 </template>
