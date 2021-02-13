@@ -4,7 +4,9 @@ const FileModule =  {
     // namespaced: true,
     state: () => ({
         imageUrl: "https://firebasestorage.googleapis.com/v0/b/chatapp-39b2f.appspot.com/o/profile%2Fav3.png?alt=media&token=e2eaa797-9255-4ced-932e-e49beafe4128",
-        files: null
+        files: null,
+        images: [],
+        group_image_url:'https://firebasestorage.googleapis.com/v0/b/whatchat-4c8cf.appspot.com/o/group_profile%2Fgroup%20icon.jpg?alt=media&token=2a2ef2b7-31fb-4677-a1d6-664c48791542'
     }),
     mutations: {
         setImageUrl (state, payload) {
@@ -12,7 +14,13 @@ const FileModule =  {
         },
         setFiles (state, payload) {
             state.files = payload
-        }
+        },
+        setImages(state,payload){
+            state.images = payload
+        },
+        setGroupImageURL(state,payload){
+            state.group_image_url = payload
+        },
     },
     actions: {
         readFile ({commit}, action_name) {
@@ -23,7 +31,7 @@ const FileModule =  {
             if (file['size'] < 200000) {
                 fileReader.readAsDataURL(file)
                 fileReader.addEventListener('load', () => {
-                    var imageUrl = fileReader.result;
+                    let imageUrl = fileReader.result;
                     commit(action_name,imageUrl)
                 })
             } else {
@@ -39,7 +47,7 @@ const FileModule =  {
                 uploadTask.on('state_changed', function(snapshot){
                     // Observe state change events such as progress, pause, and resume
                     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
                  
                   }, function(error) {
@@ -53,6 +61,51 @@ const FileModule =  {
                     });
                 });
             })
+        },
+        readFileMessage({commit}){
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                let file=files[i]
+                if (!file.type.match("image")) {
+                    continue;
+                }
+                let picReader = new FileReader();
+                let images =[]
+                picReader.addEventListener('load',event =>{
+                    let picFile = event.target;
+                    images.push(picFile.result)
+                });
+                commit('setImages', images)
+                picReader.readAsDataURL(file)
+                
+            }
+        },
+        uploadChatImages({commit},payload){
+            return new Promise((resolve, reject)=>{
+                let number = Math.random()
+                let uniq_id = number.toString(36).substr(2,9);
+                let storageRef = firebase.storage().ref('chat_images/'+`${uniq_id}.png`)
+                let uploadTask = storageRef.putString(payload, 'data_url',{
+                    contentType: "image/png"
+                })
+                
+                uploadTask.on('state_changed', function(snapshot){
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                 
+                  }, function(error) {
+                    // Handle unsuccessful uploads
+                    reject(error)
+                  }, function() {
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                      resolve(downloadURL)
+                    });
+                  });
+            })
         }
     },
     getters: { 
@@ -61,6 +114,12 @@ const FileModule =  {
         },
         getFiles (state) {
             return state.files
+        },
+        images(state) {
+            return state.images
+        },
+        group_image_url(state){
+            return state.group_image_url
         }
     }
   }

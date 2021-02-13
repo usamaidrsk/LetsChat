@@ -1,11 +1,11 @@
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
-
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+
 
 const path = require('path');
 
@@ -15,19 +15,17 @@ function resolvePath(dir) {
 
 const env = process.env.NODE_ENV || 'development';
 const target = process.env.TARGET || 'web';
-
+const isCordova = target === 'cordova';
 
 
 module.exports = {
   mode: env,
-  target: env === "development" ? "web" : "browserslist",
-  entry: {
-    app: './src/js/app.js',
-  },
+  entry: [
+    './src/js/app.js',
+  ],
   output: {
-    path: resolvePath('www'),
-    filename: 'js/[name].js',
-    chunkFilename: 'js/[name].js',
+    path: resolvePath(isCordova ? 'cordova/www' : 'www'),
+    filename: 'js/app.js',
     publicPath: '',
     hotUpdateChunkFilename: 'hot/hot-update.js',
     hotUpdateMainFilename: 'hot/hot-update.json',
@@ -35,9 +33,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
+      vue$: 'vue/dist/vue.esm.js',
       '@': resolvePath('src'),
     },
-
   },
   devtool: env === 'production' ? 'source-map' : 'eval',
   devServer: {
@@ -46,28 +44,30 @@ module.exports = {
     compress: true,
     contentBase: '/www/',
     disableHostCheck: true,
-    historyApiFallback: true,
+    watchOptions: {
+      poll: 1000,
+    },
   },
   optimization: {
-    concatenateModules: true,
-    minimizer: [new TerserPlugin()],
+    minimizer: [new TerserPlugin({
+      sourceMap: true,
+    })],
   },
   module: {
     rules: [
       {
-        test: /\.(mjs|js|jsx)$/,
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
         include: [
           resolvePath('src'),
+          resolvePath('node_modules/framework7'),
+          resolvePath('node_modules/framework7-vue'),
 
+          resolvePath('node_modules/template7'),
+          resolvePath('node_modules/dom7'),
+          resolvePath('node_modules/ssr-window'),
         ],
-        use: [
-          {
-            loader: require.resolve('babel-loader'),
-
-          },
-        ]
       },
-
 
       {
         test: /\.vue$/,
@@ -136,7 +136,6 @@ module.exports = {
           name: 'images/[name].[ext]',
 
         },
-        type: 'javascript/auto'
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac|m4a)(\?.*)?$/,
@@ -146,7 +145,6 @@ module.exports = {
           name: 'media/[name].[ext]',
 
         },
-        type: 'javascript/auto'
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -156,7 +154,6 @@ module.exports = {
           name: 'fonts/[name].[ext]',
 
         },
-        type: 'javascript/auto'
       },
     ],
   },
@@ -167,11 +164,17 @@ module.exports = {
     }),
     new VueLoaderPlugin(),
     ...(env === 'production' ? [
-      new CssMinimizerPlugin(),
+      new OptimizeCSSPlugin({
+        cssProcessorOptions: {
+          safe: true,
+          map: { inline: false },
+        },
+      }),
+      new webpack.optimize.ModuleConcatenationPlugin(),
     ] : [
       // Development only plugins
       new webpack.HotModuleReplacementPlugin(),
-
+      new webpack.NamedModulesPlugin(),
     ]),
     new HtmlWebpackPlugin({
       filename: './index.html',
@@ -187,18 +190,15 @@ module.exports = {
       } : false,
     }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
+      filename: 'css/app.css',
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          noErrorOnMissing: true,
-          from: resolvePath('src/static'),
-          to: resolvePath('www/static'),
-        },
+    new CopyWebpackPlugin([
+      {
+        from: resolvePath('src/static'),
+        to: resolvePath(isCordova ? 'cordova/www/static' : 'www/static'),
+      },
 
-      ],
-    }),
+    ]),
 
 
   ],

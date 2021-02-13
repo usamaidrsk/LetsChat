@@ -23,12 +23,12 @@ export default {
     })
   },
   methods: {
-    confirm(request) {
-            this.$store.dispatch('confirmRequest', request)
-        },
-        remove(request) {
-            this.$store.dispatch('deleteRequest', request)
-        }
+      confirm(request) {
+        this.$store.dispatch('confirmRequest', request)
+      },
+      remove(request) {
+        this.$store.dispatch('deleteRequest', request)
+      }
   },
   created() {
     this.$store.dispatch('getMyRequests')

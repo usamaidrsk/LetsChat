@@ -20,17 +20,35 @@
   <!-- Views/Tabs container -->
   <f7-views tabs class="safe-areas" v-if='signedIn'>
     <!-- Tabbar for switching views-tabs -->
-    <f7-toolbar tabbar labels bottom>
-      <f7-link tab-link="#view-home" tab-link-active icon-ios="f7:house_fill" icon-aurora="f7:house_fill" icon-md="material:home" text="Home"></f7-link>
-      <f7-link tab-link="#view-catalog" icon-ios="f7:square_list_fill" icon-aurora="f7:square_list_fill" icon-md="material:view_list" text="Catalog"></f7-link>
-      <f7-link tab-link="#view-profile" icon-ios="f7:gear" icon-aurora="f7:gear" icon-md="material:settings" text="Profile"></f7-link>
+    <f7-toolbar tabbar labels bottom v-show="show_tabbar">
+      <f7-link 
+        tab-link="#view-home" 
+        tab-link-active icon-ios="f7:house_fill" 
+        icon-aurora="f7:house_fill" 
+        icon-md="material:home" 
+        text="Home">
+      </f7-link>
+      <f7-link 
+        tab-link="#view-chatgroups"
+        icon-ios="f7:persons_round_fill"
+        icon-aurora="f7:persons_round_fill"
+        icon-md="material:group"
+        text="Groups">
+      </f7-link>
+      <f7-link 
+        tab-link="#view-profile" 
+        icon-ios="f7:gear" 
+        icon-aurora="f7:gear" 
+        icon-md="material:settings" 
+        text="Profile">
+      </f7-link>
     </f7-toolbar>
 
     <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
     <f7-view id="view-home" main tab tab-active url="/"></f7-view>
 
     <!-- Catalog View -->
-    <f7-view id="view-catalog" name="catalog" tab url="/catalog/"></f7-view>
+    <f7-view id="view-chatgroups" name="chatgroups" tab url="/chatgroups/"></f7-view>
 
     <!-- Settings View -->
     <f7-view id="view-profile" name="profile" tab url="/editprofile/"></f7-view>
@@ -100,6 +118,9 @@
       },
       displayName () {
         return this.$store.getters.getDisplayName
+      },
+      show_tabbar() {
+        return this.$store.getters.show_tabbar;
       }
     },
     methods: {

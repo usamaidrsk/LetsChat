@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import AuthModule from './AuthModule'
 import FileModule from './FileModule'
 import ChatModule from './ChatModule'
+import ChatGroupModule from './ChatGroupModule'
 
 // Create a new store instance.
 export default createStore({
@@ -14,7 +15,8 @@ export default createStore({
   modules: {
     auth: AuthModule,
     file: FileModule,
-    chat: ChatModule
+    chat: ChatModule,
+    chatgroups: ChatGroupModule,
   },
   getters:{
     alert_message:state=>state.alert_message,

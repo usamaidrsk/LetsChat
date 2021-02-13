@@ -20,8 +20,8 @@
     </f7-navbar>
 
     <f7-list media-list>
-        <f7-list-item v-for="(frd, index) in friends" :key="index" :title="frd.name" :text="frd.latest_message" @click="gotoChat(frd)">
-            <img class="small-avatar"  :src="frd.photo_url" />
+         <f7-list-item v-for="(frd, index) in friends" :key="index" :title="frd.name"  @click="gotoChat(frd)">
+            <img class="small-avatar" :src="frd.photo_url" />
         </f7-list-item>
     </f7-list>
   </f7-page>
@@ -29,10 +29,14 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+    props: {
+      f7route: Object,
+      f7router: Object,
+    },
     methods: {
         gotoChat(frd) {
-            // var frd_string = JSON.stringify(frd)
-            // this.$f7router.navigate('/chat/' + encodeURIComponent(frd_string))
+            var frd_string = JSON.stringify(frd)
+            this.f7router.navigate('/chat/' + encodeURIComponent(frd_string))
         },
         initHome() {
             this.$store.commit('setShowTabs', true)
