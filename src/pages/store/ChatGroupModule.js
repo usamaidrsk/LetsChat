@@ -5,12 +5,14 @@ const ChatGroupModule = {
   state: {
     chat_groups: null,
     group_members: null,
-    group_messages: null
+    group_messages: null,
+    groupCreated: false
   },
   getters: {
     chat_groups: state => state.chat_groups,
     group_members: state => state.group_members,
     group_messages: state => state.group_messages,
+    groupCreated: state => state.groupCreated,
   },
   mutations: {
     setChatGroups(state, payload) {
@@ -21,6 +23,9 @@ const ChatGroupModule = {
     },
     setGroupMessages(state, payload) {
       state.group_messages = payload;
+    },
+    setGroupCreated(state, payload) {
+      state.groupCreated = payload;
     }
   },
   actions: {
@@ -268,7 +273,7 @@ const ChatGroupModule = {
       });
       return promise;
     },
-    createGroup({}, group) {
+    createGroup({commit}, group) {
       let promise = new Promise((resolve, reject) => {
         db.firegroups
           .child(firebase.auth().currentUser.uid)
@@ -279,6 +284,7 @@ const ChatGroupModule = {
             owner: firebase.auth().currentUser.uid
           })
           .then(data => {
+            commit('setGroupCreated', true)
             resolve(true);
           })
           .catch(err => {

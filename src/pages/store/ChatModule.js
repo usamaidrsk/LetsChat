@@ -124,7 +124,7 @@ const ChatModule =  {
                 userdetails.push(user)
       
               })
-            //   console.log('user detais', userdetails)
+              console.log('user detais', userdetails)
               commit('setFriends', userdetails)
             })
         },

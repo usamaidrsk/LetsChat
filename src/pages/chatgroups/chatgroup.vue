@@ -85,6 +85,7 @@ export default {
         },
     },
     mounted() {
+        this.$store.commit('setShowTabs', false)
         const self = this;
         f7ready(() => {
             self.messages = f7.messagebar.get(self.$refs.messages.$el);
@@ -197,6 +198,9 @@ export default {
             if (text.length) self.messagebar.focus();
 
         },
+    },
+    updated () {
+        this.$store.commit('setShowTabs', false)
     },
     created() {
         this.user_uid = firebase.auth().currentUser.uid

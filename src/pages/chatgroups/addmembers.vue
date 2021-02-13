@@ -30,10 +30,10 @@ export default {
     computed: {
         p_members() {
             const self = this
-            var friends = [...this.$store.getters.getFriends]
+            var friends = Array.from(this.$store.getters.getFriends)
             _.forEach(self.group_members, function(member){
-                const index = _.findIndex(friends,member)
-                friends.splice(index,1)
+                const index = _.findIndex(friends, member)
+                friends.splice(index, 1)
             })
             return friends
         },

@@ -19,6 +19,10 @@
 
 <script>
 export default {
+    props: {
+      f7route: Object,
+      f7router: Object,
+    },
     data() {
         return {
             group_name: 'New Group'
@@ -30,6 +34,18 @@ export default {
         },
         files() {
             return this.$store.getters.files
+        },
+        groupCreated() {
+            return this.$store.getters.groupCreated
+        }
+    },
+    watch: {
+        groupCreated (value) {
+            if (value === true) {
+                setTimeout(() => {
+                    this.f7router.navigate('/chatgroups/')
+                }, 3000)
+            }
         }
     },
     methods: {
@@ -40,7 +56,7 @@ export default {
             // console.log(group)
             // if(this.files) ...
             if(this.files) group.pic = await this.$store.dispatch('uploadFile','group_profile/')
-            this.$store.dispatch('createGroup',group)
+            this.$store.dispatch('createGroup', group)
         },
         launchFilePicker() {
             this.$refs.file.click()
@@ -52,6 +68,7 @@ export default {
     created() {
         var url = 'https://firebasestorage.googleapis.com/v0/b/whatchat-4c8cf.appspot.com/o/group_profile%2Fgroup%20icon.jpg?alt=media&token=2a2ef2b7-31fb-4677-a1d6-664c48791542'
         this.$store.commit('setGroupImageURL', url)
+        this.$store.commit('setGroupCreated', true)
     }
 }
 </script>
