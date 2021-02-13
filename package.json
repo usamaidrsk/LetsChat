@@ -8,12 +8,6 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development webpack serve --config ./build/webpack.config.js",
-    "build-cordova-dev": "cross-env TARGET=cordova cross-env NODE_ENV=development node ./build/build.js && cd cordova && cordova build",
-    "build-cordova-prod": "cross-env TARGET=cordova cross-env NODE_ENV=production node ./build/build.js && cd cordova && cordova build",
-    "build-cordova-ios-dev": "cross-env TARGET=cordova cross-env NODE_ENV=development node ./build/build.js && cd cordova && cordova build ios",
-    "build-cordova-ios-prod": "cross-env TARGET=cordova cross-env NODE_ENV=production node ./build/build.js && cd cordova && cordova build ios",
-    "build-cordova-android-dev": "cross-env TARGET=cordova cross-env NODE_ENV=development node ./build/build.js && cd cordova && cordova build android",
-    "build-cordova-android-prod": "cross-env TARGET=cordova cross-env NODE_ENV=production node ./build/build.js && cd cordova && cordova build android",
     "build": "node ./build/build.js",
     "postinstall": "cpy ./node_modules/framework7-icons/fonts/*.* ./src/fonts/"
   },
@@ -64,8 +58,8 @@
     "url-loader": "^4.1.1",
     "vue-loader": "^16.1.2",
     "vue-style-loader": "^4.1.2",
+    "webpack": "^4.46.0",
     "webpack-cli": "^4.5.0",
-    "webpack-dev-server": "^3.11.2",
-    "webpack": "^4.46.0"
+    "webpack-dev-server": "^3.11.2"
   }
 }
